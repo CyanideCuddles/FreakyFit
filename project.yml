@@ -1,0 +1,26 @@
+name: FreakyFit
+options:
+  bundleIdPrefix: com.freakyfit
+targets:
+  FreakyFit:
+    type: application
+    platform: iOS
+    deploymentTarget: "12.0"
+    sources:
+      - path: FreakyFit
+    settings:
+      base:
+        SWIFT_VERSION: "5.0"
+        TARGETED_DEVICE_FAMILY: "1" # iPhone only
+        INFOPLIST_FILE: FreakyFit/App/Info.plist
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        CODE_SIGN_IDENTITY: "iPhone Developer"
+        DEVELOPMENT_TEAM: "" # Set team ID if codesigning on Mac
+      configs:
+        debug:
+          MTL_ENABLE_DEBUG_INFO: INCLUDE_SOURCE
+        release:
+          MTL_ENABLE_DEBUG_INFO: "NO"
+    dependencies:
+      - sdk: CoreData.framework
+      - sdk: UserNotifications.framework

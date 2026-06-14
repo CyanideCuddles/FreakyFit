@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model userVersion="1" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedVersion="1" systemVersion="11A511">
+    <entity name="WorkoutTemplate" className="WorkoutTemplate" representedClassName="WorkoutTemplate" syncable="YES">
+        <attribute name="id" optional="YES" attributeType="UUID"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="notes" optional="YES" attributeType="String"/>
+        <attribute name="createdAt" optional="YES" attributeType="Date"/>
+        <attribute name="sortOrder" optional="YES" attributeType="Integer 32" defaultValueString="0"/>
+        <relationship name="exercises" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="ExerciseTemplate" inverseName="workout" inverseEntity="ExerciseTemplate"/>
+        <relationship name="scheduleDays" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="ScheduleDay" inverseName="workout" inverseEntity="ScheduleDay"/>
+        <relationship name="logs" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="WorkoutLog" inverseName="workout" inverseEntity="WorkoutLog"/>
+    </entity>
+    <entity name="ExerciseTemplate" className="ExerciseTemplate" representedClassName="ExerciseTemplate" syncable="YES">
+        <attribute name="id" optional="YES" attributeType="UUID"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="sets" optional="YES" attributeType="Integer 32" defaultValueString="3"/>
+        <attribute name="reps" optional="YES" attributeType="Integer 32" defaultValueString="10"/>
+        <attribute name="restSeconds" optional="YES" attributeType="Integer 32" defaultValueString="60"/>
+        <attribute name="notes" optional="YES" attributeType="String"/>
+        <attribute name="sortOrder" optional="YES" attributeType="Integer 32" defaultValueString="0"/>
+        <relationship name="workout" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="WorkoutTemplate" inverseName="exercises" inverseEntity="WorkoutTemplate"/>
+    </entity>
+    <entity name="ScheduleDay" className="ScheduleDay" representedClassName="ScheduleDay" syncable="YES">
+        <attribute name="id" optional="YES" attributeType="UUID"/>
+        <attribute name="dayOfWeek" optional="YES" attributeType="Integer 16" defaultValueString="1"/>
+        <relationship name="workout" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="WorkoutTemplate" inverseName="scheduleDays" inverseEntity="WorkoutTemplate"/>
+    </entity>
+    <entity name="WorkoutLog" className="WorkoutLog" representedClassName="WorkoutLog" syncable="YES">
+        <attribute name="id" optional="YES" attributeType="UUID"/>
+        <attribute name="startedAt" optional="YES" attributeType="Date"/>
+        <attribute name="completedAt" optional="YES" attributeType="Date"/>
+        <attribute name="isCompleted" optional="YES" attributeType="Boolean" defaultValueString="NO"/>
+        <attribute name="completionPercent" optional="YES" attributeType="Float" defaultValueString="0.0"/>
+        <relationship name="workout" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="WorkoutTemplate" inverseName="logs" inverseEntity="WorkoutTemplate"/>
+        <relationship name="exerciseLogs" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="ExerciseLog" inverseName="workoutLog" inverseEntity="ExerciseLog"/>
+    </entity>
+    <entity name="ExerciseLog" className="ExerciseLog" representedClassName="ExerciseLog" syncable="YES">
+        <attribute name="id" optional="YES" attributeType="UUID"/>
+        <attribute name="exerciseName" optional="YES" attributeType="String"/>
+        <attribute name="sortOrder" optional="YES" attributeType="Integer 32" defaultValueString="0"/>
+        <relationship name="workoutLog" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="WorkoutLog" inverseName="exerciseLogs" inverseEntity="WorkoutLog"/>
+        <relationship name="setLogs" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="SetLog" inverseName="exerciseLog" inverseEntity="SetLog"/>
+    </entity>
+    <entity name="SetLog" className="SetLog" representedClassName="SetLog" syncable="YES">
+        <attribute name="id" optional="YES" attributeType="UUID"/>
+        <attribute name="setNumber" optional="YES" attributeType="Integer 32" defaultValueString="1"/>
+        <attribute name="targetReps" optional="YES" attributeType="Integer 32" defaultValueString="10"/>
+        <attribute name="actualReps" optional="YES" attributeType="Integer 32" defaultValueString="0"/>
+        <attribute name="weight" optional="YES" attributeType="Float" defaultValueString="0.0"/>
+        <attribute name="isCompleted" optional="YES" attributeType="Boolean" defaultValueString="NO"/>
+        <relationship name="exerciseLog" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ExerciseLog" inverseName="setLogs" inverseEntity="ExerciseLog"/>
+    </entity>
+    <entity name="WeightEntry" className="WeightEntry" representedClassName="WeightEntry" syncable="YES">
+        <attribute name="id" optional="YES" attributeType="UUID"/>
+        <attribute name="weight" optional="YES" attributeType="Float" defaultValueString="0.0"/>
+        <attribute name="date" optional="YES" attributeType="Date"/>
+    </entity>
+    <entity name="Note" className="Note" representedClassName="Note" syncable="YES">
+        <attribute name="id" optional="YES" attributeType="UUID"/>
+        <attribute name="title" optional="YES" attributeType="String"/>
+        <attribute name="content" optional="YES" attributeType="String"/>
+        <attribute name="category" optional="YES" attributeType="String"/>
+        <attribute name="createdAt" optional="YES" attributeType="Date"/>
+        <attribute name="updatedAt" optional="YES" attributeType="Date"/>
+    </entity>
+    <entity name="UserSettings" className="UserSettings" representedClassName="UserSettings" syncable="YES">
+        <attribute name="goalWeight" optional="YES" attributeType="Float" defaultValueString="70.0"/>
+        <attribute name="notificationsEnabled" optional="YES" attributeType="Boolean" defaultValueString="NO"/>
+        <attribute name="reminderTime" optional="YES" attributeType="String" defaultValueString="07:00"/>
+        <attribute name="darkModeEnabled" optional="YES" attributeType="Boolean" defaultValueString="NO"/>
+        <attribute name="weightUnit" optional="YES" attributeType="Integer 16" defaultValueString="0"/>
+    </entity>
+</model>
